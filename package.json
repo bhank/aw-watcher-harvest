@@ -3,5 +3,12 @@
     "activity-watch-client": "^0.1.0",
     "axios": "^0.19.2",
     "moment": "^2.24.0"
-  }
+  },
+  "version": "0.0.1",
+  "name": "aw-watcher-harvest",
+  "author": {
+    "name": "Adam Coyne",
+    "email": "github@mail2.coyne.nu"
+  },
+  "homepage": "https://github.com/bhank/aw-watcher-harvest"
 }
