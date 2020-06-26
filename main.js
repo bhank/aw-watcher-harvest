@@ -15,11 +15,17 @@ const harvestUrl = "https://api.harvestapp.com/v2/time_entries?is_running=true";
 const harvestHeaders = config.harvestHeaders; // Authorization and Harvest-Account-Id; create a Personal Access Token as described at https://help.getharvest.com/api-v2/authentication-api/authentication/authentication/ and put them in config.json
 
 const pollHarvest = async () => {
-    const response = await axios({
-        url: harvestUrl,
-        headers: harvestHeaders,
-    });
-    if(response.status === 200) {
+    let response;
+    try {
+        response = await axios({
+            url: harvestUrl,
+            headers: harvestHeaders,
+        });
+    } catch(error) {
+        console.log("Harvest request failed: ", error);
+        return;
+    }
+    if(response && response.status === 200) {
         const runningTimer = response.data.time_entries[0];
         if(runningTimer) {
             return {
@@ -57,10 +63,11 @@ const update = async () => {
 const initialize = () => client.ensureBucket(bucketId, bucketType, hostname);
 
 const main = async () => {
+    console.log("Initializing ActivityWatch client...");
     const initResult = await initialize();
-    console.log("initResult",initResult);
+    console.log("Initialized: ",initResult);
     const updateResult = await update();
-    console.log("initial updateResult", updateResult);
+    console.log("First update: ", updateResult);
     setInterval(update, updateInterval);
 };
 
