@@ -64,8 +64,21 @@ const initialize = () => client.ensureBucket(bucketId, bucketType, hostname);
 
 const main = async () => {
     console.log("Initializing ActivityWatch client...");
-    const initResult = await initialize();
-    console.log("Initialized: ",initResult);
+    for(var i = 0; i < 10; i++) {
+        if(i > 0) {
+            console.log("Pausing before retry...");
+            await new Promise(r => setTimeout(r, 1000));
+            console.log("Retrying...")
+        }
+        try {
+            const initResult = await initialize();
+            console.log("Initialized: ", initResult);
+            break;
+        } catch(e) {
+            console.log("Init failed: " + e.message)
+        }
+    }
+    
     const updateResult = await update();
     console.log("First update: ", updateResult);
     setInterval(update, updateInterval);
