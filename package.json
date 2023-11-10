@@ -4,7 +4,7 @@
   },
   "dependencies": {
     "activity-watch-client": "^0.1.0",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "moment": "^2.24.0"
   },
   "version": "0.0.1",
